@@ -91,9 +91,10 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(
           backgroundColor: appThemeColors.surface,
           centerTitle: true,
-          titleTextStyle: const TextStyle(
+          titleTextStyle: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
+            color: appThemeColors.onSurface,
           ),
         ),
         colorScheme: appThemeColors,
