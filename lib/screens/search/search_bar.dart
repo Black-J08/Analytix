@@ -1,3 +1,4 @@
+import 'package:analytix/shared/stock_price.dart';
 import 'package:analytix/shared/yahoo_finance/search_assist.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class _SearchBarSuggestionState extends State<SearchBarSuggestion> {
     return Column(
       children: [
         const SizedBox(
-          height: 20,
+          height: 10,
         ),
         TextField(
           autocorrect: false,
@@ -55,6 +56,9 @@ class _SearchBarSuggestionState extends State<SearchBarSuggestion> {
             });
           },
         ),
+        const SizedBox(
+          height: 10,
+        ),
         Expanded(
           child: FutureBuilder(
             future: _getSuggestions(),
@@ -63,9 +67,9 @@ class _SearchBarSuggestionState extends State<SearchBarSuggestion> {
                 case ConnectionState.waiting:
                   return const Center(
                     child: SizedBox(
-                      height: 8,
-                      width: 400,
-                      child: LinearProgressIndicator(),
+                      height: 60,
+                      width: 60,
+                      child: CircularProgressIndicator(),
                     ),
                   );
                 case ConnectionState.done:
@@ -81,43 +85,64 @@ class _SearchBarSuggestionState extends State<SearchBarSuggestion> {
                           height: 100,
                           padding: const EdgeInsets.only(top: 10),
                           child: Card(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  stockName,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          stockName,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                stockExchange,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            Flexible(
+                                              child: Text(
+                                                stockSymbol,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            Flexible(
+                                              child: Text(
+                                                stockType,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        stockExchange,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        stockSymbol,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        stockType,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
+                                  Expanded(
+                                    flex: 1,
+                                    child: StockPrice(symbol: stockSymbol),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         );
                       });
+                // TODO: Handle other connectionstate
                 default:
                   return const Text("Error");
               }

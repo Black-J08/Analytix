@@ -8,8 +8,8 @@ Future<List> getCurrentPrice(String symbol) async {
   var document = dom.Document.html(response.body);
   var priceNow = document.querySelector("#quote-header-info > div > div > div > fin-streamer");
   var dayChange = document.querySelectorAll('#quote-header-info > div > div > div > fin-streamer > span');
-  price.add(double.parse(priceNow!.innerHtml.toString()));
-  price.add(double.parse(dayChange[0].innerHtml.toString()));
+  price.add(priceNow!.innerHtml.toString());
+  price.add(dayChange[0].innerHtml.toString());
   price.add(dayChange[1].innerHtml.toString());
   return price;
 }
